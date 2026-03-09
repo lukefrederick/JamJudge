@@ -47,9 +47,36 @@ public class PostController {
         }
     }
 
+    // Create new post
+    @PostMapping(value = "/add", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> createPost(@RequestBody Post post) {
+        Post savedPost = postRepository.save(post);
+
+        if (savedPost == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else {
+            return new ResponseEntity<>(savedPost, HttpStatus.OK);
+        }
+    }
+
+    // No PutMapping because changing reviews is functionality that I don't plan on adding.
 
 
+    @DeleteMapping(value = "/delete/{postId}")
+    public ResponseEntity<?> deletePost(@PathVariable long postId) {
 
+        // Check if it's in there
+        Post post = postRepository.findById(postId).orElse(null);
+
+        // Null if not found and returns post not found HTTP Status
+        if (post == null) {
+            String path = "/api/users/delete/" + postId;
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Post not found");
+        } else {
+            postRepository.deleteById(post.getId());
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
 
 
 
