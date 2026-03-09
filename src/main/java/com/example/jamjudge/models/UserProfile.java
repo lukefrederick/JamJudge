@@ -1,5 +1,6 @@
 package com.example.jamjudge.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class UserProfile {
     private String bio;
 
     // One user can have many posts
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> posts;
 

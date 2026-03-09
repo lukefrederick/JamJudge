@@ -1,5 +1,6 @@
 package com.example.jamjudge.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -26,6 +27,7 @@ public class Post {
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private UserProfile user;
@@ -43,9 +45,17 @@ public class Post {
         this.createdAt = LocalDateTime.now();
     }
 
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id=" + id +
+                ", albumName='" + albumName + '\'' +
+                ", artistName='" + artistName + '\'' +
+                ", rating=" + rating +
+                '}';
+    }
+
     // Getters and Setters
-
-
     public Long getId() {
         return id;
     }
