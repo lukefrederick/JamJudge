@@ -2,6 +2,7 @@ package com.example.jamjudge.controllers;
 
 import com.example.jamjudge.models.UserProfile;
 import com.example.jamjudge.repositories.UserProfileRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
@@ -16,11 +17,10 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserProfileController {
 
-    private final UserProfileRepository userProfileRepository;
+    @Autowired
+    UserProfileRepository userProfileRepository;
 
-    public UserProfileController(UserProfileRepository userProfileRepository) {
-        this.userProfileRepository = userProfileRepository;
-    }
+
 
     // Get all users
     @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
