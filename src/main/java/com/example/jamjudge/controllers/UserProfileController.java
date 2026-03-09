@@ -2,11 +2,14 @@ package com.example.jamjudge.controllers;
 
 import com.example.jamjudge.models.UserProfile;
 import com.example.jamjudge.repositories.UserProfileRepository;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
-
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
+
 import java.util.List;
 
 @RestController
@@ -20,52 +23,78 @@ public class UserProfileController {
     }
 
     // Get all users
-    @GetMapping
-    public List<UserProfile> getAllUsers() {
-        return userProfileRepository.findAll();
+    @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getAllUsers() {
+
+        List<UserProfile> users = userProfileRepository.findAll();
+
+        if (users == null || users.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // 404
+        } else {
+            return new ResponseEntity<>(users, HttpStatus.OK); // 200
+        }
     }
 
     // Get user by ID
-    @GetMapping("/{id}")
-    public UserProfile getUserById(@PathVariable Long id) {
-        return userProfileRepository.findById(id).orElse(null);
+    @GetMapping(value = "/details/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getUserById(@PathVariable Long userId) throws NoResourceFoundException {
+
+        UserProfile user = userProfileRepository.findById(userId).orElse(null);
+
+        if (user == null) {
+            String path = "/api/users/details/" + userId;
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"); // this is different from the example because I'm apparently using a different version of Spring than Carri's example
+        } else {
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        }
     }
 
     // Create new user
-    @PostMapping
-    public UserProfile createUser(@RequestBody UserProfile userProfile) {
+    @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> createUser(@RequestBody UserProfile user) {
 
-        return userProfileRepository.save(userProfile);
+        UserProfile savedUser = userProfileRepository.save(user);
 
+        if (savedUser == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else {
+            return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+        }
     }
 
     // Update user profiles
-    @PutMapping("/{id}")
-    public ResponseEntity<UserProfile> updateUser(@PathVariable Long id, @RequestBody UserProfile updatedUser) {
+    @PutMapping(value = "/update/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> updateUser(@PathVariable Long userId, @RequestBody UserProfile updatedUser) {
 
-        // Find the existing user by ID and if found, update variables and save.
-        return userProfileRepository.findById(id)
-                .map(user -> {
-                    user.setUsername(updatedUser.getUsername());
-                    user.setFirstName(updatedUser.getFirstName());
-                    user.setLastName(updatedUser.getLastName());
-                    user.setEmail(updatedUser.getEmail());
-                    user.setBio(updatedUser.getBio());
-                    UserProfile savedUser = userProfileRepository.save(user);
-                    return ResponseEntity.ok(savedUser);
-                })
-                .orElseGet(() -> ResponseEntity.notFound().build()); // Return 404 if not found.
+        UserProfile existingUser = userProfileRepository.findById(userId).orElse(null);
 
+        if (existingUser == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // 404
+        } else {
+
+            existingUser.setUsername(updatedUser.getUsername());
+            existingUser.setFirstName(updatedUser.getFirstName());
+            existingUser.setLastName(updatedUser.getLastName());
+            existingUser.setEmail(updatedUser.getEmail());
+            existingUser.setBio(updatedUser.getBio());
+
+            UserProfile savedUser = userProfileRepository.save(existingUser);
+
+            return new ResponseEntity<>(savedUser, HttpStatus.OK);
+        }
     }
 
     // Delete users
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        if (!userProfileRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
-        }
+    @DeleteMapping(value = "/delete/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> deleteUser(@PathVariable Long userId) {
 
-        userProfileRepository.deleteById(id);
-        return ResponseEntity.noContent().build();
+        UserProfile user = userProfileRepository.findById(userId).orElse(null);
+
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // 404
+        } else {
+            userProfileRepository.delete(user);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT); // 204
+        }
     }
 }
