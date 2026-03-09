@@ -34,6 +34,24 @@ public class PostController {
         }
     }
 
+    // Retrieve all posts
+    @GetMapping(value = "/posts/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getAllPosts() {
+
+        List<Post> posts = postRepository.findAll();
+
+        if (posts == null || posts.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(posts, HttpStatus.OK);
+        }
+    }
+
+
+
+
+
+
 
 
 }
