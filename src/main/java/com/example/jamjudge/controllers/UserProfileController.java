@@ -4,6 +4,7 @@ import com.example.jamjudge.models.UserProfile;
 import com.example.jamjudge.repositories.UserProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -85,16 +86,21 @@ public class UserProfileController {
     }
 
     // Delete users
+    @Transactional
     @DeleteMapping(value = "/delete/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> deleteUser(@PathVariable Long userId) {
-
         UserProfile user = userProfileRepository.findById(userId).orElse(null);
 
         if (user == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // 404
-        } else {
-            userProfileRepository.delete(user);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT); // 204
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+
+        if (user.getPosts() != null) {
+            user.getPosts().clear();
+        }
+
+        userProfileRepository.delete(user);
+        System.out.println("Deleted user with ID " + userId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
