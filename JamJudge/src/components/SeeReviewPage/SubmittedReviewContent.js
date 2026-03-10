@@ -1,0 +1,11 @@
+// Content submitted by the review card will be pushed to submittedReviewContent but this will not be saved.
+
+let submittedReviewContent = [
+    {albumName: "House of Sugar", artistName: "Alex G", rating: 8, reviewContent: "This album which came out in 2019 is a bit of a step away from the acoustic sound that Alex G has used in previous albums. It's an easy listen and is a new direction in Alex G's music. Look forward to seeing more out of him."},
+    {albumName: "The Forever Story", artistName: "JID", rating: 9, reviewContent: "What an album. This album is artistic, creative and deep. JID gives a detailed background on his upbringing and how his birthplace, family, and experiences shaped him as a man and as a musician."},
+    {albumName: "Channels", artistName: "Punchlove", rating: 7, reviewContent: "This is a great shoegaze album with an awesome glitchy atmosphere. The vocals were weirdly muffled but they work in building on the atmosphere. The guitar and drum lines were super atmospheric and cool and overall the atmosphere was a major highlight. The glitchy stuff bridging the songs was cool even if it felt a little out of place. Overall just a great vibe."},
+    {albumName: "Nearer My God", artistName: "Foxing", rating: 9.5, reviewContent: "An absolute banger of a record, being a culmination of different sounds borrowing from indie rock and emo influences. The instrumentation here is done so well that it almost outshines the passionate and aggressive vocals on some of the songs. Nearer My God is also one of the best rock songs I have ever heard."},
+    {albumName: "Wisteria", artistName: "she's green", rating: 8.3, reviewContent: "I absolutely love Shoegaze and Dream Pop in general, but it's been a while since I stumbled over a record like this. Every song here just has me floating, it's like swimming through a sea of this ethereal, blissful walls of guitars, accompanied by those gorgeous vocals. A hidden gem that every Shoegaze lover should give a shot!"}
+]
+
+export default submittedReviewContent;
