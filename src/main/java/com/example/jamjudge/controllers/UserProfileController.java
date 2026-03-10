@@ -92,13 +92,11 @@ public class UserProfileController {
         UserProfile user = userProfileRepository.findById(userId).orElse(null);
 
         if (user == null) {
-            System.out.println("User with ID " + userId + " not found for deletion.");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         if (user.getPosts() != null) {
             user.getPosts().clear();
-            System.out.println("Cleared posts for user with ID " + userId);
         }
 
         userProfileRepository.delete(user);

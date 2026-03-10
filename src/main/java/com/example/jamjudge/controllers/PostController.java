@@ -56,8 +56,6 @@ public class PostController {
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createPost(@RequestBody Post post) {
 
-        System.out.println("Received Post: " + post);
-
         if (post.getUser() == null || post.getUser().getId() == null) {
             return ResponseEntity.badRequest().body("User ID is required");
         }
