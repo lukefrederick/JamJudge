@@ -1,6 +1,7 @@
  import Header from './Header.jsx'
 import Footer from './Footer.jsx'
 import React from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import deathmetal from '../assets/deathmetal.jpg';
 import gettingKilled from '../assets/gettingKilled.jpg';
@@ -8,9 +9,26 @@ import heavymetal from '../assets/heavymetal.jpg';
 import koinoyokan from '../assets/koinoyokan.jpg';
 import whirr from '../assets/whirr.jpg';
 import PhotoCard from './photoCard';
+import * as api from '../api.js';
 
 function Home() {
     const photos = [deathmetal, gettingKilled, heavymetal, koinoyokan, whirr];
+    const [users, setUsers] = useState([]);
+
+    // 
+    useEffect(() => {
+        const loadUsers = async () => {
+            try {
+                const res = await api.getUsers();
+                setUsers(res.data)
+            } catch (err) {
+                console.error('Error loading users:', err);
+            }
+        };
+
+        loadUsers();
+    }, []);
+
 
     return (
         <div className="home">
@@ -45,8 +63,10 @@ function Home() {
             <p>
             Check out what others have been enjoying.
             </p>
-
-            
+        
+            <p>
+            Active users: {users.length}
+            </p>
 
         </div>
     )
