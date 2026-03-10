@@ -1,11 +1,16 @@
 package com.example.jamjudge.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "user_profiles")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class UserProfile {
 
     @Id
@@ -28,9 +33,9 @@ public class UserProfile {
     private String bio;
 
     // One user can have many posts
-    @JsonIgnore
+    @JsonBackReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Post> posts;
+    private List<Post> posts = new ArrayList<>();
 
     // Constructors
     public UserProfile() {}

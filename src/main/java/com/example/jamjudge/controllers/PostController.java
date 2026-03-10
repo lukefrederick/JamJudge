@@ -1,7 +1,9 @@
 package com.example.jamjudge.controllers;
 
 import com.example.jamjudge.models.Post;
+import com.example.jamjudge.models.UserProfile;
 import com.example.jamjudge.repositories.PostRepository;
+import com.example.jamjudge.repositories.UserProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.*;
@@ -14,14 +16,15 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/posts")
 public class PostController {
 
     @Autowired
     PostRepository postRepository;
 
+
     // Retrieve post based on ID
-    @GetMapping(value = "/posts/{postId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{postId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getPostById(@PathVariable long postId) throws NoResourceFoundException {
 
         Post post = postRepository.findById(postId).orElse(null);
@@ -35,7 +38,7 @@ public class PostController {
     }
 
     // Retrieve all posts
-    @GetMapping(value = "/posts/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getAllPosts() {
 
         List<Post> posts = postRepository.findAll();
@@ -47,38 +50,42 @@ public class PostController {
         }
     }
 
+    @Autowired
+    UserProfileRepository userProfileRepository;
     // Create new post
-    @PostMapping(value = "/add", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createPost(@RequestBody Post post) {
+
+        System.out.println("Received Post: " + post);
+
+        if (post.getUser() == null || post.getUser().getId() == null) {
+            return ResponseEntity.badRequest().body("User ID is required");
+        }
+
+        // Fetch the UserProfile entity
+        UserProfile user = userProfileRepository.findById(post.getUser().getId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Set the fetched UserProfile in the Post
+        post.setUser(user);
+
+        // Save the Post
         Post savedPost = postRepository.save(post);
 
-        if (savedPost == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        } else {
-            return new ResponseEntity<>(savedPost, HttpStatus.OK);
-        }
+        return ResponseEntity.ok(savedPost);
     }
 
-    // No PutMapping because changing reviews is functionality that I don't plan on adding.
-
+    // No PutMapping because changing reviews is functionality that I don't plan on adding yet.
 
     @DeleteMapping(value = "/delete/{postId}")
     public ResponseEntity<?> deletePost(@PathVariable long postId) {
 
-        // Check if it's in there
-        Post post = postRepository.findById(postId).orElse(null);
-
-        // Null if not found and returns post not found HTTP Status
-        if (post == null) {
-            String path = "/api/users/delete/" + postId;
+        if (!postRepository.existsById(postId)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Post not found");
-        } else {
-            postRepository.deleteById(post.getId());
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
+
+        postRepository.deleteById(postId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
-
-
 
 }

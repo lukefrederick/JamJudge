@@ -1,6 +1,7 @@
 package com.example.jamjudge.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -27,7 +28,7 @@ public class Post {
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
-    @JsonIgnore
+    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private UserProfile user;
