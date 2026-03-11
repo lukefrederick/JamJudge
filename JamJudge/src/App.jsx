@@ -9,6 +9,7 @@ import Footer from './components/Footer'
 import About from './components/About'
 import ChartPage from './components/Charts/ChartPage'
 import ReviewPage from './components/SeeReviewPage/ReviewPage'
+import UserProfile from './components/UserProfile/UserProfile'
 import { HashRouter, Routes, Route } from 'react-router-dom';
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Route path="/About" element={<About />}/>
         <Route path="/ChartPage" element={<ChartPage />}/>
         <Route path="/ReviewPage" element={<ReviewPage />}/>
+        <Route path="/UserProfile" element={<UserProfile />}/>
       </Routes>
       <Footer />
     </HashRouter>
