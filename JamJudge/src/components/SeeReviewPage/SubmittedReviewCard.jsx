@@ -1,6 +1,6 @@
 import submittedReviewContent from "./SubmittedReviewContent";
 
-function SubmittedReviewCard( { albumName, artistName, rating, reviewContent }) {
+function SubmittedReviewCard( { albumName, artistName, rating, reviewContent, onDelete }) {
 
 
     return(
@@ -9,6 +9,7 @@ function SubmittedReviewCard( { albumName, artistName, rating, reviewContent }) 
             <h3>Artist: {artistName}</h3>
             <h3>Rating: {rating}</h3>
             <h3>Review: {reviewContent}</h3>
+            <button onClick={onDelete}>Delete</button>
         </div>
     )
 }
