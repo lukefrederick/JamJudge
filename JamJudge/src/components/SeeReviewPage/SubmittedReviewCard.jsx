@@ -16,3 +16,8 @@ function SubmittedReviewCard( { albumName, artistName, rating, reviewContent, on
 
 export default SubmittedReviewCard;
 
+
+
+// NEED TO CHANGE THINGS
+// add another value to submit with this called bool signedIn and if true, allow delete and edit button and if not true then don't add the buttons.]
+
