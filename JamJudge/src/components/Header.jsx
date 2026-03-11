@@ -12,7 +12,7 @@ function Header() {
                 <Link className="headerLink" to="/About">About</Link>
                 <Link className="headerLink" to="/ReviewCard">Review</Link>
                 <Link className="headerLink" to="/ChartPage">Charts</Link>
-                <Link className="headerLink" to="/ReviewPage">Your Reviews</Link>
+                <Link className="headerLink" to="/ReviewPage">Reviews</Link>
             </div>
         </>
     )
