@@ -1,33 +1,46 @@
 import { useState } from 'react';
 import submittedReviewContent from '../SeeReviewPage/SubmittedReviewContent';
+import * as api from '../../api';
+
 
 function ReviewCard() {
     const [album, setAlbum] = useState('');
     const [artist, setArtist] = useState('');
     const [rating, setRating] = useState('');
     const [review, setReview] = useState('');
+    const [error, setError] = useState('');
 
     // State used here to control the input variables and state is cleared on submit
-    const handleSubmit = (event) => {
+    const handleSubmit = async(event) => {
         event.preventDefault();
+        setError('');
 
+        // Check for input. If not, error.
         if (!album || !artist || !rating || !review) {
+            setError("Please fill out fields")
             return;
         }
 
-        let newReview = {
+        // Content to be posted to the database
+        const newReview = {
             albumName: album,
             artistName: artist,
             rating: rating,
             reviewContent: review
         };
 
-        submittedReviewContent.push(newReview);
 
-        setAlbum('');
-        setArtist('');
-        setRating('');
-        setReview('');
+        try {
+            await api.createPost(newReview);
+
+            // clear review content after posted to backend.
+        }
+        catch (err) {
+            console.error('Failed to submit review: ', err);
+            setError("Failed to submit review")
+        }
+
+        
     };
 
     return (
@@ -53,11 +66,6 @@ function ReviewCard() {
                         <option value="3">3</option>
                         <option value="4">4</option>
                         <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
                     </select>
                 </div>
 
