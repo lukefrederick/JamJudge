@@ -56,6 +56,11 @@ function userProfile() {
         setMatchedUser(findUser);
     };
 
+    const handleSaveUser = async (updatedUser) => {
+        const res = await api.updateUser(updatedUser.id, updatedUser);
+        setMatchedUser(res.data);
+    }
+
 
     return (
         <>
@@ -67,7 +72,8 @@ function userProfile() {
             </form>
 
             {/* After submitting the username, all user information will load as will posts by that particular user. */}
-            {matchedUser && <LoadUserProfile user={matchedUser} />}
+            {matchedUser && <LoadUserProfile user={matchedUser} onSave={handleSaveUser} />}
+
 
         </>
     )
