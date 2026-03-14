@@ -15,6 +15,7 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/posts")
 public class PostController {
@@ -42,6 +43,18 @@ public class PostController {
     public ResponseEntity<?> getAllPosts() {
 
         List<Post> posts = postRepository.findAll();
+
+        if (posts == null || posts.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(posts, HttpStatus.OK);
+        }
+    }
+
+    // Get posts based on user id
+    @GetMapping(value = "/user/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getPostsByUserId(@PathVariable long userId) {
+        List<Post> posts = postRepository.findByUserId(userId);
 
         if (posts == null || posts.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
