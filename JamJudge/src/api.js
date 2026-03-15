@@ -4,6 +4,11 @@ const API = axios.create({
   baseURL: "http://localhost:8080"
 });
 
+const DISCOGS = axios.create({
+  baseURL: "https://api.discogs.com"
+});
+
+const DISCOGS_KEY = import.meta.env.VITE_DISCOGS_TOKEN;
 
 // API Calls for user profiles
 export const getUsers = () => API.get("/users/all");

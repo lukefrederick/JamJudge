@@ -1,5 +1,3 @@
-
-
 /* Media queries for 768px */
 @media screen and (max-width: 768px) {
     body {
@@ -89,6 +87,15 @@ h2 {
     display: inline-block;
 }
 
+.chart-card {
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    background-color: #546373;
+    /* Default color */
+}
+
 #chart-table {
     tr:nth-child(even) {
         background-color: #f2f2f252;
@@ -126,7 +133,7 @@ th {
     text-decoration: none;
     padding-right: 10%;
     font-weight: bold;
-    
+
 }
 
 .headerLinks {
@@ -312,7 +319,7 @@ button:hover {
     }
 
 
-   
+
     table {
         overflow-x: auto;
         font-size-adjust: 0.3;

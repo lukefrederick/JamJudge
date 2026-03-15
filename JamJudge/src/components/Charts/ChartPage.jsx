@@ -1,34 +1,53 @@
 // Should loop through the data from ChartData.jsx and genererate 10 chart cards with the respective data.
 // This will be a table so that I have that included
 
-import ChartData from './ChartData.js'
+import { useEffect, useState } from "react";
+import { searchDiscogsAlbums } from "../../api";
+import ChartCard from "./ChartCard";
 
 function ChartPage() {
+  const [albums, setAlbums] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-    return (
-        <>
-            <h2>Charts</h2>
-            <h2>Here's What People are Listening to Right Now</h2>
-            <table id="chart-table">
-                <thead>
-                    <tr>
-                        <th>Album Name</th>
-                        <th>Artist</th>
-                        <th>Release Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {ChartData.map((album) => (
-                        <tr key={album.albumName}>
-                            <td><a href={album.link} target="_blank">{album.albumName}</a></td>
-                            <td>{album.artistName}</td>
-                            <td>{album.releaseDate}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </>
-    )
+
+
+  useEffect(() => {
+    const fetchAlbums = async () => {
+      try {
+        const res = await searchDiscogsAlbums({ page: 1, perPage: 25 });
+        setAlbums(res.data.results);
+      } catch (err) {
+        setError("Failed to load charts.");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAlbums();
+  }, []);
+
+  if (loading) return <p>Loading charts...</p>;
+  if (error) return <p>{error}</p>;
+
+  return (
+    <div className="chart-page">
+      <h1>Top Albums</h1>
+      <div className="chart-list">
+        {albums.map((album, index) => (
+          <ChartCard
+            key={album.id}
+            rank={index + 1}
+            artist={album.artist ?? "Unknown Artist"}
+            album={album.title ?? "Unknown Album"}
+            image={album.cover_image}
+            releaseDate={album.year}
+          />
+        ))}
+      </div>
+    </div>
+  );
 }
 
 export default ChartPage;
