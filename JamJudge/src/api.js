@@ -15,6 +15,7 @@ export const deleteUser = (id) => API.delete(`/users/delete/${id}`);
 // API calls for posts
 export const getPosts = () => API.get("/posts/all");
 export const getPost = (id) => API.get(`/posts/${id}`);
+export const getPostsByUserId = (userId) => API.get(`/posts/user/${userId}`);
 export const createPost = (post) => API.post("/posts/create", post);
 export const updatePost = (id, post) => API.put(`/posts/update/${id}`, post);
 export const deletePost = (id) => API.delete(`/posts/delete/${id}`);
