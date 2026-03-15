@@ -19,3 +19,22 @@ export const getPostsByUserId = (userId) => API.get(`/posts/user/${userId}`);
 export const createPost = (post) => API.post("/posts/create", post);
 export const updatePost = (id, post) => API.put(`/posts/update/${id}`, post);
 export const deletePost = (id) => API.delete(`/posts/delete/${id}`);
+
+// Discogs API call
+export const searchDiscogsAlbums = ({
+  page = 1,
+  perPage = 25,
+  sort = "want",
+  sortOrder = "desc"
+} = {}) =>
+  DISCOGS.get("/database/search", {
+    params: {
+      type: "release",
+      format: "album",
+      sort,
+      sort_order: sortOrder,
+      per_page: perPage,
+      page,
+      token: DISCOGS_KEY
+    }
+  });

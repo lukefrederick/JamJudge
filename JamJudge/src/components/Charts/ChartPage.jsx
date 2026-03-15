@@ -7,7 +7,8 @@ function ChartPage() {
 
     return (
         <>
-            <h2>Charts - Here's What People are Listening to Right Now</h2>
+            <h2>Charts</h2>
+            <h2>Here's What People are Listening to Right Now</h2>
             <table id="chart-table">
                 <thead>
                     <tr>
