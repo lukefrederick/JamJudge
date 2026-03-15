@@ -43,6 +43,11 @@ function ChartPage() {
             album={album.title ?? "Unknown Album"}
             image={album.cover_image}
             releaseDate={album.year}
+            genre={
+              Array.isArray(album.genre) && album.genre.length > 0
+                ? album.genre.join(", ")
+                : "N/A"
+            }
           />
         ))}
       </div>

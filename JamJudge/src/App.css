@@ -88,12 +88,21 @@ h2 {
 }
 
 .chart-card {
+    display: flex;
+    background-color: #424E5A;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin: 10px;
-    background-color: #546373;
-    /* Default color */
+    
+}
+
+.chart-rank {
+    padding-right: 10px;
+}
+
+.chart-info {
+    padding-left: 10px;
 }
 
 #chart-table {
@@ -121,11 +130,11 @@ th {
 
 
 .reviewCard {
-    padding-bottom: 10px;
-    padding-top: 10px;
-
-    border-radius: 15px;
-    border-color: #FFFDD0;
+    background-color: #424E5A;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 10px;
 }
 
 .headerLink {
@@ -147,7 +156,7 @@ th {
 }
 
 a:link {
-    color: #FFFDD0;
+    color: #E97451;
     text-decoration: none;
 }
 
