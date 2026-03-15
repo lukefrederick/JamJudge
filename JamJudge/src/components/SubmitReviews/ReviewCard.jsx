@@ -53,7 +53,7 @@ function ReviewCard() {
             albumName: album.trim(),
             artistName: artist.trim(),
             rating: Number(rating),
-            reviewContent: review.trim(),
+            reviewContent: review,
             user: {
                 id: findUser.id
             }

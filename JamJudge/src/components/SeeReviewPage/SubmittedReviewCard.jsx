@@ -1,6 +1,6 @@
 import submittedReviewContent from "./SubmittedReviewContent";
 
-function SubmittedReviewCard( { albumName, artistName, rating, reviewContent, onDelete }) {
+function SubmittedReviewCard( { albumName, artistName, rating, reviewContent, onDelete, deleteReviewBool }) {
 
 
     return(
@@ -9,7 +9,7 @@ function SubmittedReviewCard( { albumName, artistName, rating, reviewContent, on
             <h3>Artist: {artistName}</h3>
             <h3>Rating: {rating}</h3>
             <h3>Review: {reviewContent}</h3>
-            <button onClick={onDelete}>Delete</button>
+            {deleteReviewBool && <button onClick={onDelete}>Delete</button>} {/* Will only render if deleteReviewBool is true */}
         </div>
     )
 }
@@ -18,6 +18,4 @@ export default SubmittedReviewCard;
 
 
 
-// NEED TO CHANGE THINGS
-// add another value to submit with this called bool signedIn and if true, allow delete and edit button and if not true then don't add the buttons.]
 
