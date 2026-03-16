@@ -1,5 +1,3 @@
-import submittedReviewContent from "./SubmittedReviewContent";
-
 function SubmittedReviewCard( { albumName, artistName, rating, reviewContent, onDelete, deleteReviewBool }) {
 
 
