@@ -47,6 +47,7 @@
 }
 
 
+/* Main body  */
 body {
     background-color: #546373;
     color: #FFFDD0;
@@ -54,6 +55,28 @@ body {
     padding-left: 10%;
     padding-right: 10%;
 
+}
+
+/* Loading animation */
+.center-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Full viewport height */
+}
+
+.loader {
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 h1 {

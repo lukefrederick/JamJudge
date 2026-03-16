@@ -28,7 +28,11 @@ function ChartPage() {
     fetchAlbums();
   }, []);
 
-  if (loading) return <p>Loading charts...</p>;
+  if (loading) return (<div class="center-container">
+    <div class="loader"></div>
+  </div>);
+    
+    
   if (error) return <p>{error}</p>;
 
   return (
